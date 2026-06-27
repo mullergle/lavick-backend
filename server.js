@@ -3,6 +3,7 @@ const sqlite3 = require("sqlite3").verbose();
 const cors = require("cors");
 const multer = require("multer");
 const path = require("path");
+const fs = require("fs");
 const nodemailer = require("nodemailer");
 const transporter = nodemailer.createTransport({
 
@@ -24,6 +25,9 @@ app.use(express.json());
 app.use("/uploads", express.static("uploads"));
 
 /* MULTER */
+if (!fs.existsSync("uploads")) {
+    fs.mkdirSync("uploads", { recursive: true });
+}
 const storage = multer.diskStorage({
 
 destination:(req,file,cb)=>{
